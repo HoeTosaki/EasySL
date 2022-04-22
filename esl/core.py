@@ -188,6 +188,7 @@ class ESL:
     @classmethod
     def wrap_classes(cls):
         return [InnerWrapper,NumpyWrapper,PandasWrapper,TorchWrapper,NetworkXWrapper,DGLWrapper]
+
     def dump(self):
         _wrap_classes_ = self.__class__.wrap_classes()
         data_types = self.__class__.data_types()
@@ -241,7 +242,47 @@ class ESL:
         '''
         return self.data_view()
 
+    def inn(self):
+        obj = DataView.SubDataView()
+        type_data_dict = self.data_dict['inn']
+        for data_name in type_data_dict:
+            setattr(obj, data_name, type_data_dict[data_name][0])
+        return obj
 
+    def np(self):
+        obj = DataView.SubDataView()
+        type_data_dict = self.data_dict['np']
+        for data_name in type_data_dict:
+            setattr(obj, data_name, type_data_dict[data_name][0])
+        return obj
+
+    def pd(self):
+        obj = DataView.SubDataView()
+        type_data_dict = self.data_dict['pd']
+        for data_name in type_data_dict:
+            setattr(obj, data_name, type_data_dict[data_name][0])
+        return obj
+
+    def tc(self):
+        obj = DataView.SubDataView()
+        type_data_dict = self.data_dict['tc']
+        for data_name in type_data_dict:
+            setattr(obj, data_name, type_data_dict[data_name][0])
+        return obj
+
+    def dgl(self):
+        obj = DataView.SubDataView()
+        type_data_dict = self.data_dict['dgl']
+        for data_name in type_data_dict:
+            setattr(obj, data_name, type_data_dict[data_name][0])
+        return obj
+
+    def nx(self):
+        obj = DataView.SubDataView()
+        type_data_dict = self.data_dict['nx']
+        for data_name in type_data_dict:
+            setattr(obj, data_name, type_data_dict[data_name][0])
+        return obj
 
 class DataView:
     '''
@@ -299,6 +340,46 @@ def auto_load(func):
         return tuple(ret_list) if ret_len > 1 else ret_list[0]
     _decorated_func.__name_inner__ = func.__name__
     return _decorated_func
+
+'''
+Utils.
+'''
+class Utils:
+    @staticmethod
+    def di(var_id):
+        return PyObj_FromPtr(var_id)
+
+    @staticmethod
+    def register(**dict_data):
+        ESL.from_cluster().register(**dict_data)
+
+    @staticmethod
+    def data_view():
+        return ESL.from_cluster().data_view()
+
+    @staticmethod
+    def dv():
+        return ESL.from_cluster().dv()
+
+    @staticmethod
+    def inn():
+        return ESL.from_cluster().inn()
+
+    @staticmethod
+    def np():
+        return ESL.from_cluster().np()
+
+    @staticmethod
+    def pd():
+        return ESL.from_cluster().pd()
+
+    @staticmethod
+    def dgl():
+        return ESL.from_cluster().dgl()
+
+    @staticmethod
+    def nx():
+        return ESL.from_cluster().nx()
 
 if __name__ == '__main__':
     print('hello ESL.')

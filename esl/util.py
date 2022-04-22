@@ -1,4 +1,6 @@
 from _ctypes import PyObj_FromPtr
+from esl import *
 
-def di(var_id):
-    return PyObj_FromPtr(var_id)
+
+
+

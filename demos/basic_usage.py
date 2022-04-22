@@ -1,6 +1,8 @@
 import networkx as nx
 
 from esl import *
+from esl import Utils as eu
+
 import time
 
 def routine1():
@@ -8,19 +10,17 @@ def routine1():
         create a default cluster and directly register some data to ESL.
         Data managed by cluster changed correspondingly along with the running routine after registered.
     '''
-    cls = ESL.from_cluster()
     a = [1,2,3,4,5]
     b = {'why':123,'pdj':208}
     print('orginal data: a={},b={}'.format(a,b))
 
-    cls.register(aa=a,bb=b)
-    dv = cls.data_view()
-    print('managed data: a={},b={}'.format(dv.inn.aa,dv.inn.bb))
+    eu.register(aa=a,bb=b)
+    print('managed data: a={},b={}'.format(eu.inn().aa,eu.inn().bb))
 
     a[1] = 100
     b['ljk'] = '10086'
     print('modified data: a={},b={}'.format(a,b))
-    print('managed data: a={},b={}'.format(dv.inn.aa,dv.inn.bb))
+    print('managed data: a={},b={}'.format(eu.inn().aa,eu.inn().bb))
 
 def routine2():
     '''

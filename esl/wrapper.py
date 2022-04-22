@@ -219,7 +219,7 @@ class NetworkXWrapper(Wrapper):
     def load(cls, save_name, cluster_pwd):
         data_type, data_name = cls.decode_save_name(save_name=save_name)
         assert data_type == cls.type_id()
-        wrp = TorchWrapper(data=None, data_name=data_name, cluster_pwd=cluster_pwd)
+        wrp = NetworkXWrapper(data=None, data_name=data_name, cluster_pwd=cluster_pwd)
         if not os.path.exists(wrp.pwd()):
             lg.warning('No data found by data type {}, data name {}'.format(data_type, data_name))
             return None
