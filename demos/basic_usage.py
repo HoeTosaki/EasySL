@@ -15,6 +15,7 @@ def routine1():
     print('orginal data: a={},b={}'.format(a,b))
 
     eu.register(aa=a,bb=b)
+    time.sleep(2)
     print('managed data: a={},b={}'.format(eu.inn().aa,eu.inn().bb))
 
     a[1] = 100
@@ -60,7 +61,8 @@ def routine4():
     a4.add_edge(3, 4)
     a4.add_edge(5, 3)
     a4.add_edge(1, 3)
-    a5 = pd.DataFrame([[1,2,3],['wy1','why','pdj']],index=['r1','r2'],columns=['c1','c2','c3'])
+    a5 = pd.DataFrame([[1,2,3],['wy1','why','pdj']],
+                      index=['r1','r2'],columns=['c1','c2','c3'])
 
     cls = ESL.from_cluster(cluster_name='cls_type')
     cls.register(a1=a1,a2=a2,a3=a3,a4=a4,a5=a5)
@@ -89,8 +91,8 @@ def routine5():
     print('{}+{}->{}'.format(dv.inn.in_a,dv.inn.in_b,dv.inn.__ret_0__))
 
 
-# @auto_save
-@auto_load
+@auto_save
+# @auto_load
 def timable_func(in_a):
     for i in range(in_a):
         print('i:{}'.format(i))
@@ -106,7 +108,7 @@ def routine6():
 
 if __name__ == '__main__':
     print('hello basic usage.')
-    # routine1()
+    routine1()
     # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # routine2()
     # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -116,5 +118,5 @@ if __name__ == '__main__':
     # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # routine5()
     # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-    routine6()
+    # routine6()
 

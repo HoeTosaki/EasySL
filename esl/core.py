@@ -9,6 +9,8 @@ import esl.util as util
 import os
 import copy
 from esl.wrapper import *
+from _ctypes import PyObj_FromPtr
+
 
 class ESL:
     '''
@@ -29,6 +31,7 @@ class ESL:
         self.cluster_type = cluster_type
         self.cluster_id = self._name2id()
         self.data_dict = None
+        self.data2type = None
         self.init_data_dict()
         self.is_load_data = load_data
         self.force_delete = force_delete
@@ -48,6 +51,20 @@ class ESL:
                     raise IOError
                 else:
                     self.dump()
+            else:
+                self._construct_data2type_dict()
+
+    def _construct_data2type_dict(self):
+        if self.data_dict is None:
+            return
+        self.data2type = {}
+        for type in self.data_dict:
+            type_data_dict = self.data_dict[type]
+            for data_name in type_data_dict:
+                if data_name not in self.data2type:
+                    self.data2type[data_name] = [type]
+                else:
+                    self.data2type[data_name].append(type)
 
     def init_data_dict(self):
         self.data_dict = {}
@@ -180,6 +197,7 @@ class ESL:
                 raise TypeError
         if self.auto_save:
             self.dump()
+        print(f'{self} all:{self.data_dict}')
 
     @classmethod
     def data_types(cls):
@@ -236,13 +254,34 @@ class ESL:
                 setattr(obj_type,data_name,type_data_dict[data_name][0])
         return dv
 
+    def direct_data_view(self):
+        if self.data2type is None:
+            lg.warning('ESL {} currently NOT support direct data view, plz use data_view() instead.'.format(self.cluster_id))
+            return None
+        dv = DataView.SubDataView()
+        for data_name in self.data2type:
+            data_type = self.data2type[data_name]
+            if len(data_type) == 1:
+                setattr(dv, data_name, self.data_dict[data_type[0]][data_name][0])
+            else:
+                for i in range(len(data_type)):
+                    setattr(dv, '{}_{}'.format(data_name,data_type), self.data_dict[data_type[i]][data_name][0])
+        return dv
+
     def dv(self):
         '''
              alias name for data_view()
         '''
         return self.data_view()
 
+    def ddv(self):
+        '''
+             alias name for direct_data_view()
+        '''
+        return self.direct_data_view()
+
     def inn(self):
+        print(f'{self} inn:{self.data_dict}')
         obj = DataView.SubDataView()
         type_data_dict = self.data_dict['inn']
         for data_name in type_data_dict:
@@ -360,6 +399,10 @@ class Utils:
     @staticmethod
     def dv():
         return ESL.from_cluster().dv()
+
+    @staticmethod
+    def ddv():
+        return ESL.from_cluster().ddv()
 
     @staticmethod
     def inn():

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="EasySL",
-    version = "0.1",
+    version = "0.1.0",
     author="HoeWang@THU",
     author_email="1139032564@qq.com",
     description="Easy Save&Load (ESL) provides an automatic data management for Python.",
